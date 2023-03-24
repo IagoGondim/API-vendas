@@ -1,44 +1,39 @@
 import AppError from '@shared/errors/AppError';
 import { getCustomRepository } from 'typeorm';
-import Product from '../typeorm/entities/Product';
-import ProductRepository from '../typeorm/repositories/ProductsRepository';
+import User from '../typeorm/entities/User';
+import UserRepository from '../typeorm/repositories/UsersRepository';
 
 interface IRequest {
   id: string;
   name: string;
-  price: number;
-  quantity: number;
+  email: string;
+  password: string;
 }
 
-class UpdateProductService {
-  public async execute({
-    id,
-    name,
-    price,
-    quantity,
-  }: IRequest): Promise<Product> {
-    const productsRepository = getCustomRepository(ProductRepository);
+class UpdateUserService {
+  public async execute({ id, name, email, password }: IRequest): Promise<User> {
+    const usersRepository = getCustomRepository(UserRepository);
 
-    const product = await productsRepository.findOne(id);
+    const user = await usersRepository.findOne(id);
 
-    if (!product) {
-      throw new AppError('Product not found');
+    if (!user) {
+      throw new AppError('user not found');
     }
 
-    const productExists = await productsRepository.findByName(name);
+    const emailExists = await usersRepository.findByName(name);
 
-    if (productExists && name !== product.name) {
-      throw new AppError('There is already one product with this name');
+    if (emailExists && email !== user.email) {
+      throw new AppError('Email addres already used');
     }
 
-    product.name = name;
-    product.price = price;
-    product.quantity = quantity;
+    user.name = name;
+    user.email = email;
+    user.password = password;
 
-    await productsRepository.save(product);
+    await usersRepository.save(user);
 
-    return product;
+    return user;
   }
 }
 
-export default UpdateProductService;
+export default UpdateUserService;
