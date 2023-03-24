@@ -20,9 +20,9 @@ class UpdateUserService {
       throw new AppError('user not found');
     }
 
-    const emailExists = await usersRepository.findByName(name);
+    const userExists = await usersRepository.findByName(name);
 
-    if (emailExists && email !== user.email) {
+    if (userExists && email !== user.email) {
       throw new AppError('Email addres already used');
     }
 

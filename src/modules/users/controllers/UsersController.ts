@@ -2,8 +2,8 @@ import { Request, Response } from 'express';
 import CreateUserService from '../services/CreateUserService';
 import DeleteUserService from '../services/DeleteProductService';
 import ListUserService from '../services/ListUserService';
-import ShowUserService from '../services/ShowProductService';
-import UpdateUserService from '../services/UpdateProductService';
+import ShowUserService from '../services/ShowUserService';
+import UpdateUserService from '../services/UpdateUserService';
 
 export default class UsersController {
   public async index(request: Request, response: Response): Promise<Response> {
